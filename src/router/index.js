@@ -107,6 +107,7 @@ export const routers = [
   {
     path: '/fireworks',
     component: Layout,
+    redirect: '/fireworks/goddess',
     children:[
       {
         path: 'goddess',
@@ -115,7 +116,31 @@ export const routers = [
         meta: {title: '人间烟火', icon: 'people',}
       }
     ]
+  },
+  {
+    path: '/system',
+    component: Layout,
+    redirect: '/system/parameter',
+    meta: {
+      title: '系统管理',
+      icon: 'international',
+    },
+    children:[
+      {
+        path: 'parameter',
+        component: () => import('@/views/System/Parameter'),
+        name: 'Parameter',
+        meta: {title: '参数配置', icon: 'xitongcanshu',}
+      },
+      {
+        path: 'jobConfig',
+        component: () => import('@/views/System/JobConfig'),
+        name: 'JobConfig',
+        meta: {title: '任务配置', icon: 'clock',}
+      }
+    ]
   }
+
 ]
 
 export default new VueRouter({
