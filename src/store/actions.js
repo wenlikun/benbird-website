@@ -122,6 +122,11 @@ export default {
 
   updateVisitedView({ commit }, view) {
     commit('UPDATE_VISITED_VIEW', view)
+  },
+
+  // settings
+  changeSetting({ commit }, data) {
+    commit('CHANGE_SETTING', data)
   }
 
 
