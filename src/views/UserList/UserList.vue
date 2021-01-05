@@ -26,9 +26,9 @@
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
                     <el-dropdown>
-                    <span class="el-dropdown-link">
+                    <el-button type="primary" size="small">
                         更多操作<i class="el-icon-arrow-down el-icon--right"></i>
-                    </span>
+                    </el-button>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item @click.native="handleModify(scope.row)">编辑</el-dropdown-item>
                             <el-dropdown-item>详情</el-dropdown-item>
