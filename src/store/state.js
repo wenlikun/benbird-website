@@ -4,6 +4,7 @@
 
 import variables from '@/styles/element-variables.scss'
 import Layout from "@/layout/Layout";
+import Cookie from 'js-cookie'
 
 export default {
 
@@ -18,11 +19,11 @@ export default {
     size:  'medium'
   },
   settings : {
-    theme: variables.theme,
-    showSettings: true,
-    tagsView: true,
-    fixedHeader: false,
-    sidebarLogo: false
+    theme: Cookie.get('theme') || variables.theme,
+    showSettings: Cookie.get('showSettings') > 0 || true,
+    tagsView: Cookie.get('tagsView') > 0 || true,
+    fixedHeader: Cookie.get('fixedHeader') > 0 || false,
+    sidebarLogo: Cookie.get('sidebarLogo') > 0 || false
   },
 
   permission : {

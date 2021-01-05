@@ -78,6 +78,7 @@
 <script>
     import {Component, Vue } from 'vue-property-decorator'
     import Pagination from "../../components/Pagination/Pagination";
+    import Cookie from 'js-cookie'
 
     @Component({
         components: {Pagination}

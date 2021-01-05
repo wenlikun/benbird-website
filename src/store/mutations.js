@@ -2,11 +2,11 @@
  * vuex 直接更新state的多个方法的对象
  */
 
-
 import {
   SESSION_ID,
   TOGGLE_SIDEBAR
 } from './mutations-type'
+import Cookie from "js-cookie";
 
 export default {
 
@@ -102,8 +102,9 @@ export default {
   // settings
   CHANGE_SETTING: (state, { key, value }) => {
     // eslint-disable-next-line no-prototype-builtins
-    if (state.hasOwnProperty(key)) {
-      state[key] = value
+    if (state.settings.hasOwnProperty(key)) {
+      state.settings[key] = value
+      Cookie.set(key, key === 'theme' ? value : value?1:0)
     }
   }
 
