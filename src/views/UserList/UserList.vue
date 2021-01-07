@@ -25,14 +25,14 @@
             <el-table-column label="创建时间" align="center"  sortable prop="createdAt"/>
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
-                    <el-dropdown>
-                    <el-button type="primary" size="small">
-                        更多操作<i class="el-icon-arrow-down el-icon--right"></i>
-                    </el-button>
+                    <el-dropdown trigger="click">
+                        <el-button type="primary" size="small">
+                            更多操作<i class="el-icon-arrow-down el-icon--right"></i>
+                        </el-button>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item @click.native="handleModify(scope.row)">编辑</el-dropdown-item>
                             <el-dropdown-item>详情</el-dropdown-item>
-                            <el-dropdown-item>权限</el-dropdown-item>
+                            <el-dropdown-item @click.native="drawer=true">权限</el-dropdown-item>
                             <el-dropdown-item @click.native="handleDelete(scope.$index)">删除</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
@@ -43,11 +43,34 @@
         <!-- 分页功能 -->
         <Pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="queryList" />
 
+        <el-drawer
+                title="权限分配"
+                :visible.sync="drawer"
+                :direction="direction"
+                >
+            <h2 style="text-align: center">权限列表</h2>
+            <template>
+                <el-input placeholder="输入关键字进行过滤" v-model="filterText"/>
+            </template>
+            <el-tree
+                    ref="tree"
+                    :data="routesData"
+                    show-checkbox
+                    node-key="path"
+                    class="permission-tree"
+                    :filter-node-method="filterNode"
+            />
+            <div style="text-align:center;">
+                <el-button type="info" size="mini" @click="drawer=false">取消</el-button>
+                <el-button type="success" size="mini">确定</el-button>
+            </div>
+        </el-drawer>
+
     </div>
 </template>
 
 <script>
-    import {Component, Vue } from 'vue-property-decorator'
+    import {Component, Vue , Watch } from 'vue-property-decorator'
     import Pagination from "../../components/Pagination/Pagination";
 
     @Component({
@@ -56,7 +79,6 @@
     export default class UserList extends Vue{
         userName = ''
         userPhone = ''
-        radio = 'id'
         tableData = []
         listLoading = true
         total = 0
@@ -64,6 +86,43 @@
             page : 1 ,
             limit : 20
         }
+        drawer = false
+        // Drawer 打开的方向
+        direction = 'rtl'
+        routesData = [
+            {
+            label: '表格',
+            children: [{label: '完整表格'},{label: '测试表格'}]
+        }, {
+            label: '一级 2',
+            children: [{
+                label: '二级 2-1',
+                children: [{
+                    label: '三级 2-1-1'
+                }, {
+                        label: '三级 2-1-2'
+                    }]
+            }, {
+                label: '二级 2-2',
+                children: [{
+                    label: '三级 2-2-1'
+                }]
+            }]
+        }, {
+            label: '一级 3',
+            children: [{
+                label: '二级 3-1',
+                children: [{
+                    label: '三级 3-1-1'
+                }]
+            }, {
+                label: '二级 3-2',
+                children: [{
+                    label: '三级 3-2-1'
+                }]
+            }]
+        }]
+        filterText = ''
 
         mounted() {
             this.queryList()
@@ -99,6 +158,16 @@
 
         handleModify(row){
             console.log(row)
+        }
+
+        @Watch('filterText')
+        filterTextFunction(val) {
+            this.$refs.tree.filter(val);
+        }
+
+        filterNode(value, data) {
+            if (!value) return true;
+            return data.label.indexOf(value) !== -1;
         }
 
     }
