@@ -55,10 +55,12 @@
             <el-tree
                     ref="tree"
                     :data="routesData"
-                    show-checkbox
-                    node-key="path"
-                    class="permission-tree"
+                    :default-checked-keys="checkedKeys"
+                    :default-expanded-keys="expandedKeys"
                     :filter-node-method="filterNode"
+                    show-checkbox
+                    node-key="id"
+                    class="permission-tree"
             />
             <div style="text-align:center;">
                 <el-button type="info" size="mini" @click="drawer=false">取消</el-button>
@@ -90,38 +92,14 @@
         // Drawer 打开的方向
         direction = 'rtl'
         routesData = [
-            {
-            label: '表格',
-            children: [{label: '完整表格'},{label: '测试表格'}]
-        }, {
-            label: '一级 2',
-            children: [{
-                label: '二级 2-1',
-                children: [{
-                    label: '三级 2-1-1'
-                }, {
-                        label: '三级 2-1-2'
-                    }]
-            }, {
-                label: '二级 2-2',
-                children: [{
-                    label: '三级 2-2-1'
-                }]
-            }]
-        }, {
-            label: '一级 3',
-            children: [{
-                label: '二级 3-1',
-                children: [{
-                    label: '三级 3-1-1'
-                }]
-            }, {
-                label: '二级 3-2',
-                children: [{
-                    label: '三级 3-2-1'
-                }]
-            }]
-        }]
+                {id:1,label: '首页'},
+                {id:2,label: '表格', children: [{id:3,label: '完整表格'},{id:4,label: '测试表格'}]},
+                {id:5,label: '权限管理', children: [{id:6,label: '用户管理'},{id:7,label: '路径管理'}]},
+                {id:8,label: '人间烟火'},
+                {id:9,label: '系统管理', children: [{id:10,label: '参数配置'},{id:11,label: '任务配置'}]}
+            ]
+        checkedKeys = [1,2,3,4]
+        expandedKeys=[1,2]
         filterText = ''
 
         mounted() {
@@ -129,7 +107,7 @@
         }
 
         queryList(){
-            this.listLoading = false
+            this.listLoading = true
             this.tableData = [
                 {id:1,userName:'123456789',userPhone:'18326676004',email:'18326676004@163.com',realName:'wlk',gender:'男',department:'GCT',lastLoginTime:'2020-12-12 12:12:13',createdAt:'2020-12-01'},
                 {id:2,userName:'123456789',userPhone:'18326676004',email:'18326676004@163.com',realName:'wlk',gender:'男',department:'GCT',lastLoginTime:'2020-12-12 12:12:13',createdAt:'2020-12-01'},
