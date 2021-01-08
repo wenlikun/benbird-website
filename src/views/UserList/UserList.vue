@@ -26,7 +26,7 @@
             <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
                     <el-dropdown trigger="click">
-                        <el-button type="primary" size="small">
+                        <el-button size="small">
                             更多操作<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
