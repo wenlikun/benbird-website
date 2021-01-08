@@ -21,7 +21,12 @@
             <el-table-column label="ID" align="center" sortable prop="id" />
             <el-table-column label="菜单名称" align="center" sortable prop="menuName" />
             <el-table-column label="菜单路径" align="center" sortable prop="menuUrl"/>
-            <el-table-column label="菜单类型" align="center" sortable prop="menuType"/>
+            <el-table-column label="菜单类型" align="center" sortable >
+                <template slot-scope="{row}">
+                    <span v-if="row.menuType==='页面'" style="color: #409EFF">{{row.menuType}}</span>
+                    <span v-if="row.menuType==='按钮'" style="color: #67C23A">{{row.menuType}}</span>
+                </template>
+            </el-table-column>
             <el-table-column label="父菜单名称" align="center" sortable prop="parentMenuName"/>
             <el-table-column label="是否禁用" align="center" sortable>
                 <template slot-scope="{row}">
@@ -36,6 +41,11 @@
                 </template>
             </el-table-column>
             <el-table-column label="创建时间" align="center"  sortable prop="createdAt"/>
+            <el-table-column label="操作" align="center">
+                <template slot-scope="scope">
+                    
+                </template>
+            </el-table-column>
         </el-table>
 
         <!-- 分页功能 -->
