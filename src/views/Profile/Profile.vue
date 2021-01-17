@@ -43,7 +43,9 @@
             ...mapGetters([
                 'name',
                 'avatar',
-                'roles'
+                'roles',
+                'userEmail',
+                'nickName'
             ])
         },
         created() {
@@ -54,8 +56,9 @@
                 this.user = {
                     name: this.name,
                     role: this.roles.join(' | '),
-                    email: 'admin@test.com',
-                    avatar: this.avatar
+                    email: this.userEmail,
+                    avatar: this.avatar,
+                    nickName:this.nickName
                 }
             }
         }

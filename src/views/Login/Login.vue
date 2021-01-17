@@ -76,8 +76,8 @@
             }
             return {
                 loginForm: {
-                    username: 'admin',
-                    password: '111111'
+                    username: 'nick',
+                    password: '123456'
                 },
                 loginRules: {
                     username: [{required: true, trigger: 'blur', validator: validateUsername}],
@@ -114,12 +114,14 @@
                 this.$refs.loginForm.validate(valid => {
                     if (valid) {
                         this.loading = true
-                        this.$store.dispatch('login', this.loginForm)
+                        this.$store.dispatch('login', {userName:this.loginForm.username,password:this.loginForm.password})
                             .then(() => {
+                                console.log("login success")
                                 this.$router.push('/dashboard')
                                 this.loading = false
                             })
                             .catch(() => {
+                                console.log("login error")
                                 this.$router.push('/dashboard')
                                 this.loading = false
                             })

@@ -3,25 +3,39 @@
  */
 
 import {
-  SESSION_ID,
     TOGGLE_SIDEBAR
 } from './mutations-type'
 
 import {
   login
-} from '../api/index'
+} from '../api/user'
+import {setToken} from '@/utils/auth'
+
 
 export default {
 
-  async login({commit},loginForm){
-    // 发送异步ajax请求
+  login({commit},loginForm){
+    return new Promise((resolve, reject) => {
+      login(loginForm).then(response => {
+        const { data } = response
+        console.log(data)
+        commit('SET_USER', data)
+        setToken(data.token)
+        resolve()
+      }).catch(error => {
+        console.log('action login error')
+        reject(error)
+      })
+    })
+
+   /* // 发送异步ajax请求
     const result = await login(loginForm)
     // 提交一个mutation
     if(result.code === 200 && result.success){
       const sessionId = result.data
       const userInfo = loginForm
       commit(SESSION_ID,{sessionId,userInfo})
-    }
+    }*/
   },
 
   // app

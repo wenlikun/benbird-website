@@ -10,14 +10,22 @@ import Cookie from "js-cookie";
 
 export default {
 
-  [SESSION_ID](state,{sessionId,userInfo}){
-    state.sessionId = sessionId
-    state.userInfo = userInfo
-  },
 
   [TOGGLE_SIDEBAR](state){
       state.app.sidebar.opened = !state.app.sidebar.opened
       state.app.sidebar.withoutAnimation = false
+
+  },
+
+  SET_USER(state,{data}){
+    // 设置用户信息
+    state.user.name=data.userName
+    state.user.token=data.token
+    state.user.avatar=data.avatar
+    state.user.introduction=data.nickName
+    state.user.userEmail=data.userEmail
+    state.user.nickName=data.nickName
+    // 设置权限信息
 
   },
 

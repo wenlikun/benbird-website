@@ -4,7 +4,7 @@
             <el-input v-model="menuName" style="width: 20%" placeholder="菜单名称"></el-input>
             <el-input v-model="menuUrl" style="width: 20%" placeholder="菜单路径"></el-input>
             <el-button type="primary" icon="el-icon-search" >查询</el-button>
-            <el-button type="success" icon="el-icon-plus">新增</el-button>
+            <el-button type="success" icon="el-icon-plus">新增页面</el-button>
         </div>
 
         <el-table
@@ -24,7 +24,7 @@
             <el-table-column label="菜单类型" align="center" sortable >
                 <template slot-scope="{row}">
                     <span v-if="row.menuType==='页面'" style="color: #409EFF">{{row.menuType}}</span>
-                    <span v-if="row.menuType==='按钮'" style="color: #67C23A">{{row.menuType}}</span>
+                    <span v-else style="color: #67C23A">{{row.menuType}}</span>
                 </template>
             </el-table-column>
             <el-table-column label="父菜单名称" align="center" sortable prop="parentMenuName"/>
@@ -41,9 +41,11 @@
                 </template>
             </el-table-column>
             <el-table-column label="创建时间" align="center"  sortable prop="createdAt"/>
-            <el-table-column label="操作" align="center">
+            <el-table-column label="操作" align="center" width="350px">
                 <template slot-scope="scope">
-                    
+                    <el-button size="mini" icon="el-icon-plus" type="info" v-if="scope.row.menuType==='页面'" >新增按钮</el-button>
+                    <el-button size="mini" icon="el-icon-edit" type="warning">编辑</el-button>
+                    <el-button size="mini" icon="el-icon-delete" type="danger" >删除</el-button>
                 </template>
             </el-table-column>
         </el-table>

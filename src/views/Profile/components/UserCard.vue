@@ -8,7 +8,8 @@
       <div class="box-center">
         <AvatarInfo :image="user.avatar" :height="'100px'" :width="'100px'" :hoverable="false">
           <div>Hello</div>
-          {{ user.role }}
+          <br/>
+          {{ user.nickName }}
         </AvatarInfo>
       </div>
       <div class="box-center">
@@ -80,7 +81,8 @@ export default {
           name: '',
           email: '',
           avatar: '',
-          role: ''
+          role: '',
+          nickName:''
         }
       }
     }

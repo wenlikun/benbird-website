@@ -3,7 +3,6 @@
  */
 
 import variables from '@/styles/element-variables.scss'
-import Layout from "@/layout/Layout";
 import Cookie from 'js-cookie'
 
 export default {
@@ -30,32 +29,25 @@ export default {
     routes: [
       {
         path: '/redirect',
-        component: Layout,
         hidden: true,
         children: [
           {
             path: '/redirect/:path(.*)',
-            component: () => import('@/views/Redirect/Redirect')
           }
         ]
       },
       {
         path:'/',
-        redirect:'/login'
       },
       {
         path: '/login',
         hidden: true,
-        component: () => import('@/views/Login/Login')
       },
       {
         path: '/dashboard',
-        component: Layout,
-        redirect: '/dashboard/index',
         children: [
           {
-            path: 'index',
-            component: () => import('@/views/Dashboard/Dashboard'),
+            path: '/dashboard/index',
             name: 'Dashboard',
             meta: { title: '首页', icon: 'dashboard', affix: true }
           }
@@ -63,23 +55,16 @@ export default {
       },
       {
         path: '/table',
-        component: Layout,
-        redirect: '/table/complex-table',
         name: 'Table',
-        meta: {
-          title: '表格',
-          icon: 'table'
-        },
+        meta: {title: '表格', icon: 'table'},
         children: [
           {
-            path: 'complex-table',
-            component: () => import('@/views/Table/ComplexTable'),
+            path: '/table/complex-table',
             name: 'ComplexTable',
             meta: { title: '完整表格' }
           },
           {
-            path: 'test-table',
-            component: () => import('@/views/Table/TestTable'),
+            path: '/table/test-table',
             name: 'TestTable',
             meta: { title: '测试表格' }
           }
@@ -87,13 +72,10 @@ export default {
       },
       {
         path: '/profile',
-        component: Layout,
-        redirect: '/profile/index',
         hidden: true,
         children: [
           {
-            path: 'index',
-            component: () => import('@/views/Profile/Profile'),
+            path: '/profile/index',
             name: 'Profile',
             meta: { title: '个人信息', icon: 'user', noCache: true }
           }
@@ -101,22 +83,15 @@ export default {
       },
       {
         path: '/permission',
-        component: Layout,
-        redirect: '/permission/userList',
-        meta: {
-          title: '权限管理',
-          icon: 'lock',
-        },
+        meta: {title: '权限管理', icon: 'lock',},
         children: [
           {
-            path: 'userList',
-            component: () => import('@/views/UserList/UserList'),
+            path: '/permission/userList',
             name: 'UserList',
             meta: { title: '用户管理', icon: 'peoples', noCache: true }
           },
           {
-            path: 'urlList',
-            component: () => import('@/views/UrlList/UrlList'),
+            path: '/permission/urlList',
             name: 'UrlList',
             meta: { title: '路径管理', icon: 'tree-table', noCache: true }
           }
@@ -124,12 +99,9 @@ export default {
       },
       {
         path: '/fireworks',
-        component: Layout,
-        redirect: '/fireworks/goddess',
         children:[
           {
-            path: 'goddess',
-            component: () => import('@/views/Fireworks/Goddess'),
+            path: '/fireworks/goddess',
             name: 'Goddess',
             meta: {title: '人间烟火', icon: 'people',}
           }
@@ -137,22 +109,15 @@ export default {
       },
       {
         path: '/system',
-        component: Layout,
-        redirect: '/system/parameter',
-        meta: {
-          title: '系统管理',
-          icon: 'international',
-        },
+        meta: {title: '系统管理', icon: 'international',},
         children:[
           {
-            path: 'parameter',
-            component: () => import('@/views/System/Parameter'),
+            path: '/system/parameter',
             name: 'Parameter',
             meta: {title: '参数配置', icon: 'xitongcanshu',}
           },
           {
-            path: 'jobConfig',
-            component: () => import('@/views/System/JobConfig'),
+            path: '/system/jobConfig',
             name: 'JobConfig',
             meta: {title: '任务配置', icon: 'clock',}
           }
@@ -164,10 +129,12 @@ export default {
 
   user:{
     token: '',
-    name: 'ben-bird',
-    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    name: '',
+    avatar: '',
     introduction: '',
-    roles: ['超级管理员']
+    userEmail:'',
+    nickName:'',
+    roles: ['笨鸟用户']
   },
 
   errorLog : {

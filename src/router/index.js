@@ -36,7 +36,7 @@ export const routers = [
     redirect: '/dashboard/index',
     children: [
       {
-        path: 'index',
+        path: '/dashboard/index',
         component: () => import('@/views/Dashboard/Dashboard'),
         name: 'Dashboard',
         meta: { title: '首页', icon: 'dashboard', affix: true }
@@ -54,13 +54,13 @@ export const routers = [
     },
     children: [
       {
-        path: 'complex-table',
+        path: '/table/complex-table',
         component: () => import('@/views/Table/ComplexTable'),
         name: 'ComplexTable',
         meta: { title: '完整表格' }
       },
       {
-        path: 'test-table',
+        path: '/table/test-table',
         component: () => import('@/views/Table/TestTable'),
         name: 'TestTable',
         meta: { title: '测试表格' }
@@ -74,7 +74,7 @@ export const routers = [
     hidden: true,
     children: [
       {
-        path: 'index',
+        path: '/profile/index',
         component: () => import('@/views/Profile/Profile'),
         name: 'Profile',
         meta: { title: '个人信息', icon: 'user', noCache: true }
@@ -91,13 +91,13 @@ export const routers = [
     },
     children: [
       {
-        path: 'userList',
+        path: '/permission/userList',
         component: () => import('@/views/UserList/UserList'),
         name: 'UserList',
         meta: { title: '用户管理', icon: 'peoples', noCache: true }
       },
       {
-        path: 'urlList',
+        path: '/permission/urlList',
         component: () => import('@/views/UrlList/UrlList'),
         name: 'UrlList',
         meta: { title: '路径管理', icon: 'tree-table', noCache: true }
@@ -110,7 +110,7 @@ export const routers = [
     redirect: '/fireworks/goddess',
     children:[
       {
-        path: 'goddess',
+        path: '/fireworks/goddess',
         component: () => import('@/views/Fireworks/Goddess'),
         name: 'Goddess',
         meta: {title: '人间烟火', icon: 'people',}
@@ -127,13 +127,13 @@ export const routers = [
     },
     children:[
       {
-        path: 'parameter',
+        path: '/system/parameter',
         component: () => import('@/views/System/Parameter'),
         name: 'Parameter',
         meta: {title: '参数配置', icon: 'xitongcanshu',}
       },
       {
-        path: 'jobConfig',
+        path: '/system/jobConfig',
         component: () => import('@/views/System/JobConfig'),
         name: 'JobConfig',
         meta: {title: '任务配置', icon: 'clock',}
