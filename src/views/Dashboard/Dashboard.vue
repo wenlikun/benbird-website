@@ -1,17 +1,33 @@
 <template>
     <div class="dashboard-editor-container">
-        {{Dashboard}}
+        <div>
+            Hello {{name}}
+        </div>
+        <div>
+            {{date}}
+        </div>
     </div>
 </template>
 
 <script>
+    import {mapGetters} from 'vuex'
+    import Moment from 'moment'
 
     export default {
         name: 'Dashboard',
         data(){
             return {
-                Dashboard:'Dashboard'
+                Dashboard:'Dashboard',
+                date : ''
             }
+        },
+        mounted(){
+          setInterval( () =>　{
+            this.date = Moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+          },1000)
+        },
+        computed: {
+            ...mapGetters(['name']),
         }
     }
 </script>

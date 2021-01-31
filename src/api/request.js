@@ -26,7 +26,7 @@ let isRefreshing = true;
 service.interceptors.response.use(
     response => {
         console.log('api.interceptors.response'+response)
-        if (response.status === 200 || response.status === 201) {
+        if ((response.status === 200 || response.status === 201) && response.data.code === 200) {
             return Promise.resolve(response);
         } else {
             return Promise.reject(response);

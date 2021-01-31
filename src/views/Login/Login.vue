@@ -47,7 +47,7 @@
             </el-tooltip>
 
             <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;"
-                       @click.native.prevent="handleLogin">Login
+                       @click.native.prevent="handleLogin">登录
             </el-button>
         </el-form>
 
@@ -120,10 +120,10 @@
                                 this.$router.push('/dashboard')
                                 this.loading = false
                             })
-                            .catch(() => {
-                                console.log("login error")
-                                this.$router.push('/dashboard')
+                            .catch((error) => {
+                                console.log("login error"+error)
                                 this.loading = false
+                                this.$message.error('登录失败,请检查用户名和密码是否正确');
                             })
                     } else {
                         return false

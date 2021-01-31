@@ -14,17 +14,17 @@
                 fit
                 highlight-current-row
                 style="width: 100%">
-            <el-table-column label="ID" align="center" width="70px" sortable prop="id"/>
-            <el-table-column label="job编号" align="center" width="150px" sortable>
+            <el-table-column label="ID" align="center" width="130" sortable prop="id"/>
+            <el-table-column label="job编号" align="center" sortable>
                 <template slot-scope="{row}">
                     <span class="link-type">{{ row.jobNo }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="job类名" align="center" width="150px" sortable prop="jobClass"/>
-            <el-table-column label="job描述" align="center" width="150px" sortable prop="jobDesc"/>
-            <el-table-column label="运行时间" align="center" width="150px" sortable prop="corn"/>
-            <el-table-column label="是否启用" align="center" width="150px" sortable prop="isEnable"/>
-            <el-table-column label="job类型" align="center" width="130px" sortable prop="jobType"/>
+            <el-table-column label="job类名" align="center" sortable prop="jobClass"/>
+            <el-table-column label="job描述" align="center" sortable prop="jobDesc"/>
+            <el-table-column label="运行时间" align="center" sortable prop="corn"/>
+            <el-table-column label="是否启用" align="center" sortable prop="isEnable"/>
+            <el-table-column label="job类型" align="center" sortable prop="jobType"/>
 
             <!-- 操作的动作 -->
             <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">

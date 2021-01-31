@@ -71,7 +71,7 @@
                             type: 'success',
                             duration: 5 * 1000
                         });
-                        this.$store.dispatch('user/logout')
+                        this.$store.dispatch('logout')
                         this.$router.push(`/login?redirect=${this.$route.fullPath}`)
                     }
                 });

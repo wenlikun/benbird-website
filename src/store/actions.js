@@ -7,9 +7,10 @@ import {
 } from './mutations-type'
 
 import {
-  login
+  login,logOut
 } from '../api/user'
 import {setToken} from '@/utils/auth'
+import state from "@/store/state";
 
 
 export default {
@@ -18,24 +19,24 @@ export default {
     return new Promise((resolve, reject) => {
       login(loginForm).then(response => {
         const { data } = response
-        console.log(data)
         commit('SET_USER', data)
-        setToken(data.token)
+        setToken(data.data.token)
         resolve()
       }).catch(error => {
         console.log('action login error')
         reject(error)
       })
     })
+  },
 
-   /* // 发送异步ajax请求
-    const result = await login(loginForm)
-    // 提交一个mutation
-    if(result.code === 200 && result.success){
-      const sessionId = result.data
-      const userInfo = loginForm
-      commit(SESSION_ID,{sessionId,userInfo})
-    }*/
+  logout({commit}){
+    return new Promise(((resolve, reject) => {
+      logOut({userName:state.user.name}).then(response => {
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    }))
   },
 
   // app

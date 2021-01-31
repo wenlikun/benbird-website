@@ -26,7 +26,10 @@ export default {
     state.user.userEmail=data.userEmail
     state.user.nickName=data.nickName
     // 设置权限信息
-
+    state.permission = {routes:data.sysMenuDOList}
+    // 清除缓存
+    state.tagsView.visitedViews = []
+    state.tagsView.cachedViews = []
   },
 
   // app

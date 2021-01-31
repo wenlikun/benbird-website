@@ -13,10 +13,10 @@
                 fit
                 highlight-current-row
                 style="width: 100%">
-            <el-table-column label="ID" align="center" width="70px" sortable prop="id"/>
-            <el-table-column label="参数ID" align="center" width="300px" sortable prop="paramId"/>
-            <el-table-column label="参数值" align="center" width="300px" sortable prop="paramValue"/>
-            <el-table-column label="参数描述" align="center" width="300px" sortable prop="paramDesc"/>
+            <el-table-column label="ID" align="center" width="130" sortable prop="id"/>
+            <el-table-column label="参数ID" align="center" sortable prop="paramId"/>
+            <el-table-column label="参数值" align="center"sortable prop="paramValue"/>
+            <el-table-column label="参数描述" align="center" sortable prop="paramDesc"/>
 
             <!-- 操作的动作 -->
             <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
