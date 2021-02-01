@@ -131,7 +131,7 @@
         }
 
         handleDelete(id){
-            deleteUser(id,this.$store.state.user.name).then(response => {
+            deleteUser(id,this.$store.state.user.name).then(() => {
                 this.$notify({
                     title: 'Success',
                     message: '删除成功',

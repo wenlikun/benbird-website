@@ -30,7 +30,7 @@
                     <el-button type="warning" size="mini" icon="el-icon-edit" @click="handleEdit(row)">
                         编辑
                     </el-button>
-                    <el-button size="mini" type="danger" @click="handleDelete(row,$index)" icon="el-icon-delete" >
+                    <el-button size="mini" type="danger" @click="handleDelete(row.id)" icon="el-icon-delete" >
                         删除
                     </el-button>
                 </template>
@@ -75,6 +75,8 @@
 
 <script>
     import Pagination from "@/components/Pagination/Pagination";
+    import {queryGoddessList,addGoddess,modifyGoddess,deleteGoddess} from '@/api/goddess'
+    import {deleteUser} from "@/api/user";
     export default {
         name: "Goddess",
         components:{Pagination},
@@ -115,28 +117,20 @@
         methods:{
             queryData(){
                 this.listLoading = true
-                this.total = 21
-                this.tableData = [
-                    {id:1,month:'2020-01',startDate:'2021-01-29',endDate:'2021-02-03',memo:'感觉还行'},
-                    {id:2,month:'2020-02',startDate:'2020-02-13',endDate:'2020-02-20',memo:'感觉还行'},
-                    {id:3,month:'2020-03',startDate:'2020-03-13',endDate:'2020-03-20',memo:'感觉还行'},
-                    {id:4,month:'2020-04',startDate:'2020-04-13',endDate:'2020-04-20',memo:'感觉还行'},
-                    {id:5,month:'2020-05',startDate:'2020-05-13',endDate:'2020-05-20',memo:'感觉还行'},
-                    {id:6,month:'2020-06',startDate:'2020-06-13',endDate:'2020-06-20',memo:'感觉还行'},
-                    {id:7,month:'2020-07',startDate:'2020-07-13',endDate:'2020-07-20',memo:'感觉还行'},
-                    {id:8,month:'2020-08',startDate:'2020-08-13',endDate:'2020-08-20',memo:'感觉还行'},
-                    {id:9,month:'2020-09',startDate:'2020-09-13',endDate:'2020-09-20',memo:'感觉还行'},
-                    {id:10,month:'2020-10',startDate:'2020-10-13',endDate:'2020-10-20',memo:'感觉还行'},
-                    {id:11,month:'2020-11',startDate:'2020-11-13',endDate:'2020-10-20',memo:'感觉还行11111111'},
-                ]
+                queryGoddessList({month:this.month,currentPage:listQuery.page,pageCount:listQuery.limit}).
+                    then((response) => {
+                        const { data } = response.data
+                        this.tableData = data.results
+                        this.total = data.totalSize
+                    }).catch((error) => {
+                        this.$message.error(error.data.message);
+                        this.tableData = []
+                        this.total = 0
+                })
                 this.listLoading = false
             },
             handleQuery(){
-                const month = this.month
                 this.queryData()
-                if(month){
-                    this.tableData =  this.tableData.filter(date => date.month === month)
-                }
             },
             handleAdd(){
                 this.resetRowData()
@@ -144,6 +138,12 @@
                 this.dialogFormVisible = true
                 this.$nextTick(() => {
                     this.$refs['dataForm'].clearValidate()
+                })
+                addGoddess(this.rowData).then(() => {
+                    this.$message({message: '新增数据成功!', type: 'success'});
+                    this.queryData()
+                }).catch((error) => {
+                    this.$message.error(error.data.message);
                 })
             },
             handleEdit(row){
@@ -154,15 +154,25 @@
                 this.$nextTick(() => {
                     this.$refs['dataForm'].clearValidate()
                 })
-            },
-            handleDelete(row,index){
-                this.$notify({
-                    title: 'Success',
-                    message: '删除成功',
-                    type: 'success',
-                    duration: 2000
+                modifyGoddess(this.rowData).then(() => {
+                    this.$message({message: '修改数据成功!', type: 'success'});
+                    this.queryData()
+                }).catch((error) => {
+                    this.$message.error(error.data.message);
                 })
-                this.tableData.splice(index, 1)
+            },
+            handleDelete(id){
+                deleteGoddess(id,this.$store.state.user.name).then(() => {
+                    this.$notify({
+                        title: 'Success',
+                        message: '删除成功',
+                        type: 'success',
+                        duration: 2000
+                    })
+                    this.queryData()
+                }).catch(error => {
+                    this.$message.error(error.data.message);
+                })
             },
             // 重置表单数据
             resetRowData(){

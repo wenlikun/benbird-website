@@ -121,9 +121,8 @@
                                 this.loading = false
                             })
                             .catch((error) => {
-                                console.log("login error"+error)
                                 this.loading = false
-                                this.$message.error('登录失败,请检查用户名和密码是否正确');
+                                this.$message.error('登录失败!'+error.data.message);
                             })
                     } else {
                         return false
