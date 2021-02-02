@@ -3,7 +3,7 @@ import request from '@/api/request'
 export function queryGoddessList(data) {
     return request({
         url: '/goddess/queryGoddessList',
-        method: 'get',
+        method: 'post',
         data
     })
 }
@@ -26,7 +26,7 @@ export function modifyGoddess(data) {
 
 export function deleteGoddess(id,updatedBy) {
     return request({
-        url: '/goddess/deleteGoddess?id='+id+'&updatedBy='+updatedBy,
+        url: '/goddess/deleteGoddess/'+id+'?updatedBy='+updatedBy,
         method: 'delete'
     })
 }

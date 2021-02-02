@@ -119,6 +119,7 @@
                                 console.log("login success")
                                 this.$router.push('/dashboard')
                                 this.loading = false
+                                sessionStorage.setItem("store",JSON.stringify(this.$store.state))
                             })
                             .catch((error) => {
                                 this.loading = false

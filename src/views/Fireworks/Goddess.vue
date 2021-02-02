@@ -20,8 +20,8 @@
                 style="width: 100%">
             <el-table-column label="ID" align="center" width="70px" sortable prop="id"/>
             <el-table-column label="月份" align="center" width="150px" sortable prop="month"/>
-            <el-table-column label="开始日期" align="center" width="250px" sortable prop="startDate"/>
-            <el-table-column label="结束日期" align="center" width="250px" sortable prop="endDate"/>
+            <el-table-column label="开始日期" align="center" width="250px" sortable prop="startDate" :formatter="handleStartDate"/>
+            <el-table-column label="结束日期" align="center" width="250px" sortable prop="endDate" :formatter="handleEndDate"/>
             <el-table-column label="备注" align="center" show-overflow-tooltip prop="memo"/>
 
             <!-- 操作的动作 -->
@@ -48,13 +48,11 @@
                     <el-input v-model="rowData.id" disabled/>
                 </el-form-item>
                 <el-form-item label="月份" prop="month">
-                    <el-date-picker v-model="rowData.month" type="month" placeholder="选择月份"/>
+                    <el-date-picker v-model="rowData.month" :disabled="this.dialogStatus==='更新'" type="month" placeholder="选择月份" value-format="yyyy-MM"/>
                 </el-form-item>
-                <el-form-item label="开始日期" prop="startDate">
-                    <el-date-picker v-model="rowData.startDate" type="date" placeholder="选择开始日期"/>
-                </el-form-item>
-                <el-form-item label="结束日期" prop="endDate">
-                    <el-date-picker v-model="rowData.endDate" type="date" placeholder="选择结束日期"/>
+                <el-form-item label="日期范围" prop="daterange">
+                    <el-date-picker v-model="rowData.daterange" type="daterange" placeholder="请选择日期范围"
+                                    value-format="yyyy-MM-dd" format="yyyy-MM-dd"/>
                 </el-form-item>
                 <el-form-item label="备注" prop="memo">
                     <el-input type="textarea" v-model="rowData.memo" />
@@ -64,7 +62,7 @@
                 <el-button @click="dialogFormVisible = false">
                     取消
                 </el-button>
-                <el-button type="primary">
+                <el-button type="primary" @click="submitDate">
                     提交
                 </el-button>
             </div>
@@ -76,7 +74,7 @@
 <script>
     import Pagination from "@/components/Pagination/Pagination";
     import {queryGoddessList,addGoddess,modifyGoddess,deleteGoddess} from '@/api/goddess'
-    import {deleteUser} from "@/api/user";
+    import Moment from 'moment'
     export default {
         name: "Goddess",
         components:{Pagination},
@@ -98,34 +96,37 @@
                 dialogStatus: '',
                 dialogFormVisible:false,
                 rules: {
-                    month: [{ type:'month', required: true, message: '月份不能为空', trigger: 'blur' }],
-                    startDate: [{ type: 'date', required: true, message: '开始日期不能为空', trigger: 'blur' }],
-                    endDate: [{ type: 'date', required: true, message: '结束日期不能为空', trigger: 'blur' }],
+                    month: [{ type:'string', required: true, message: '月份不能为空', trigger: 'blur' }],
+                    daterange: [{ type: 'array', required: true, message: '日期范围不能为空'}],
                 },
                 rowData:{
                     id: '',
                     month:'',
                     startDate: '',
                     endDate: '',
-                    memo: ''
-                }
+                    memo: '',
+                    daterange:[]
+                },
             }
         },
         mounted(){
             this.queryData()
         },
         methods:{
-            queryData(){
-                this.listLoading = true
-                queryGoddessList({month:this.month,currentPage:listQuery.page,pageCount:listQuery.limit}).
-                    then((response) => {
-                        const { data } = response.data
-                        this.tableData = data.results
-                        this.total = data.totalSize
-                    }).catch((error) => {
-                        this.$message.error(error.data.message);
-                        this.tableData = []
-                        this.total = 0
+            async queryData() {
+                this.listLoading = true;
+                await queryGoddessList({
+                    month: this.month,
+                    currentPage: this.listQuery.page,
+                    pageCount: this.listQuery.limit
+                }).then((response) => {
+                    const {data} = response.data
+                    this.tableData = data.results
+                    this.total = data.totalSize
+                }).catch((error) => {
+                    this.$message.error(error.data.message);
+                    this.tableData = []
+                    this.total = 0
                 })
                 this.listLoading = false
             },
@@ -139,27 +140,43 @@
                 this.$nextTick(() => {
                     this.$refs['dataForm'].clearValidate()
                 })
-                addGoddess(this.rowData).then(() => {
-                    this.$message({message: '新增数据成功!', type: 'success'});
-                    this.queryData()
-                }).catch((error) => {
-                    this.$message.error(error.data.message);
-                })
             },
             handleEdit(row){
                 // copy obj
                 this.rowData = Object.assign({}, row)
+                this.$set(this.rowData,'daterange',[Moment(row.startDate).format('YYYY-MM-DD'), Moment(row.endDate).format('YYYY-MM-DD')])
                 this.dialogStatus = '更新'
                 this.dialogFormVisible = true
                 this.$nextTick(() => {
                     this.$refs['dataForm'].clearValidate()
                 })
-                modifyGoddess(this.rowData).then(() => {
-                    this.$message({message: '修改数据成功!', type: 'success'});
-                    this.queryData()
-                }).catch((error) => {
-                    this.$message.error(error.data.message);
+            },
+            submitDate() {
+                this.$refs.dataForm.validate(valid => {
+                    if (valid) {
+                        const {daterange} = this.rowData
+                        this.rowData.startDate = daterange[0]
+                        this.rowData.endDate = daterange[1]
+                        if ('新增' === this.dialogStatus) {
+                            addGoddess(this.rowData).then(() => {
+                                this.$message({message: '新增数据成功!', type: 'success'});
+                                this.dialogFormVisible = false
+                                this.queryData()
+                            }).catch((error) => {
+                                this.$message.error(error.data.message);
+                            })
+                        } else {
+                            modifyGoddess(this.rowData).then(() => {
+                                this.$message({message: '修改数据成功!', type: 'success'});
+                                this.dialogFormVisible = false
+                                this.queryData()
+                            }).catch((error) => {
+                                this.$message.error(error.data.message);
+                            })
+                        }
+                    }
                 })
+
             },
             handleDelete(id){
                 deleteGoddess(id,this.$store.state.user.name).then(() => {
@@ -178,11 +195,15 @@
             resetRowData(){
                 this.rowData= {
                         id: undefined,
-                        month:new Date(),
-                        startDate: new Date(),
-                        endDate: new Date(),
+                        month:Moment(new Date()).format('YYYY-MM'),
                         memo: ''
                 }
+            },
+            handleStartDate(row,column){
+                return Moment(row.startDate).format('YYYY-MM-DD')
+            },
+            handleEndDate(row,column){
+                return Moment(row.endDate).format('YYYY-MM-DD')
             }
         }
 
